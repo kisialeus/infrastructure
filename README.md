@@ -11,6 +11,8 @@ You must have the AWS CLI installed and configured, as well as an S3 bucket for 
 
 ### install nginx-ingress
 ```bash
+```bash
+kubectl create namespace ingress-nginx
 kubectl apply -f ingress-nginx.yaml 
 ```
 proxy-real-ip-cidr should be same as VPC CIDR
@@ -39,8 +41,10 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 #patch argocd cm to allow http (ssl termination will be in NLB)
 
 kubectl apply -f argocd-cm-patch.yaml -n argocd
+kubectl rollout restart deploy argocd-server -n argocd
 kubectl apply -f argo-ingress.yaml -n argocd
-
+helm repo add argo https://argoproj.github.io/argo-helm
+helm install argocd-image-updater argo/argocd-image-updater -n argocd -f image-updater-values.yaml
 #get initial pass for argo admin 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
