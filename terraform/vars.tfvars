@@ -1,6 +1,3 @@
-
-
-
 # AWS region
 region = "us-east-1"
 project_name = "testing"
@@ -8,7 +5,7 @@ project_name = "testing"
 # EKS cluster version
 cluster_version = 1.25
 
-
+# VPC settings
 vpc_cidr_block = "10.20.0.0/16"
 public_subnets  = ["10.20.101.0/24", "10.20.102.0/24", "10.20.103.0/24"]
 private_subnets = {
@@ -17,23 +14,19 @@ private_subnets = {
   prod   = ["10.20.50.0/24", "10.20.51.0/24", "10.20.52.0/24"]
 }
 
-
+# Nodegroups settings
 eks_nodegroups = [
   {
-    name           = "dev-spot"
-    environment    = "dev"
+    name           = "testing-cluster-spot"
     is_spot        = true
-    min_size       = 1
-    max_size       = 3
+    max_size       = 2
     desired_size   = 1
-    instance_types = ["t3.small", "t3.medium"] # cluster autosclaer not working properly with *.small nodes
+    instance_types = ["t3.small", "t3.medium"] # cluster autoscaler not working properly with *.small nodes
   },
   {
-    name           = "dev-ondemand"
-    environment    = "dev"
+    name           = "testing-cluster-ondemand"
     is_spot        = false
-    min_size       = 1
-    max_size       = 3
+    max_size       = 2
     desired_size   = 1
     instance_types = ["t3.small", "t3.medium"]
   },

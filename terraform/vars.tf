@@ -32,18 +32,13 @@ variable "cluster_version" {
   description = "EKS cluster version"
 }
 
-variable "ecr_repositories" {
-  type        = list(string)
-  description = "List of ECR names"
-}
-
 variable "eks_nodegroups" {
   type = list(object({
     name           = string
-    environment    = string
+    environment    = optional(string, "shared")
     is_spot        = bool
     type           = optional(string, "general")
-    min_size       = number
+    min_size       = optional(number, 1)
     max_size       = number
     desired_size   = number
     volume_size    = optional(number)
