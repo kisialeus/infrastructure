@@ -17,17 +17,17 @@ private_subnets = {
 # Nodegroups settings
 eks_nodegroups = [
   {
-    name           = "testing-cluster-spot"
+    name           = "testing-eks-spot"
     is_spot        = true
     max_size       = 2
-    desired_size   = 1
-    instance_types = ["t3.small", "t3.medium"] # cluster autoscaler not working properly with *.small nodes
+    desired_size   = 2
+    instance_types = ["t3.small"] # cluster autoscaler not working properly with *.small nodes
   },
   {
-    name           = "testing-cluster-ondemand"
+    name           = "testing-eks-ondemand"
     is_spot        = false
     max_size       = 2
     desired_size   = 1
-    instance_types = ["t3.small", "t3.medium"]
+    instance_types = ["t3.small"]
   },
 ]

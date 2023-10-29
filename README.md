@@ -39,12 +39,20 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 #patch argocd cm to allow http (ssl termination will be in NLB)
-
 kubectl apply -f argocd-cm-patch.yaml -n argocd
 kubectl rollout restart deploy argocd-server -n argocd
 kubectl apply -f argo-ingress.yaml -n argocd
+
+# create argocd project
+kubectl apply -f argocd-project.yaml -n argocd
+
+# add argocd image updater and patch it
 helm repo add argo https://argoproj.github.io/argo-helm
 helm install argocd-image-updater argo/argocd-image-updater -n argocd -f image-updater-values.yaml
+kubectl rollout restart deploy argocd-image-updater -n argocd 
+
 #get initial pass for argo admin 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
+## Connect repositories and ArgoCD 
+Generate ssh keys and add private key to argdocd and public to github

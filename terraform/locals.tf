@@ -8,12 +8,6 @@ data "aws_subnets" "eks_subnets" {
   }
 }
 
-#data "aws_lb" "eks_ingress_lb" {
-#  tags = {
-#    "kubernetes.io/cluster/${var.project_name}-${var.environment}-cluster" = "owned"
-#  }
-#}
-
 locals {
   account_id = data.aws_caller_identity.current.account_id
   eks_nodegroups = {
